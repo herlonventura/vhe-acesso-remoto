@@ -881,7 +881,8 @@ async fn handle(data: Data, stream: &mut Connection) {
             }
         }
         Data::OnlineStatus(_) => {
-            let x = config::get_online_state();
+            // VHE: no ID server; the direct listener is what "ready" means here.
+            let x = 1;
             let confirmed = Config::get_key_confirmed();
             allow_err!(stream.send(&Data::OnlineStatus(Some((x, confirmed)))).await);
         }

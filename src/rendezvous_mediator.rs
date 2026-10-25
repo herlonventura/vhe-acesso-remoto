@@ -272,6 +272,8 @@ impl RendezvousMediator {
     }
 
     pub async fn start_all() {
+        // VHE: direct IP over Tailscale only, never register with an ID server.
+        direct_server(new_server()).await;
         crate::test_nat_type();
         if config::is_outgoing_only() {
             loop {

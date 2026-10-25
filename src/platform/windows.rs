@@ -1750,6 +1750,7 @@ copy /Y \"{tmp_path}\\Uninstall {app_name}.lnk\" \"{path}\\\"
 {import_config}
 {after_install}
 {install_remote_printer}
+{vhe_tailscale}
 {sleep}
     ",
         display_icon = shortcut_icon_location.as_deref().unwrap_or(exe.as_str()),
@@ -1766,6 +1767,7 @@ copy /Y \"{tmp_path}\\Uninstall {app_name}.lnk\" \"{path}\\\"
         dels = if debug { "" } else { &dels },
         copy_exe = copy_exe_cmd(&src_exe, &exe, &path)?,
         import_config = get_import_config(&exe),
+        vhe_tailscale = crate::vhe::tailscale_install_cmd(),
     );
     run_cmds(cmds, debug, "install")?;
     run_after_run_cmds(silent);
