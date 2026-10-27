@@ -1278,6 +1278,10 @@ pub fn handle_mouse_simulation_(evt: &MouseEvent, conn: i32) {
     if !active_mouse_(conn) {
         return;
     }
+    #[cfg(windows)]
+    if evt.mask & MOUSE_TYPE_MASK != MOUSE_TYPE_UP && crate::vhe::local_mouse_busy() {
+        return;
+    }
 
     if EXITING.load(Ordering::SeqCst) {
         return;
