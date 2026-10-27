@@ -27,6 +27,11 @@ pub fn apply_settings() {
     ] {
         settings.insert(k.to_owned(), v.to_owned());
     }
+    drop(settings);
+    // Tailscale links are usually fast enough for the best picture; users can still lower it per session.
+    let mut display = config::DEFAULT_DISPLAY_SETTINGS.write().unwrap();
+    display.insert("image_quality".to_owned(), "best".to_owned());
+    display.insert("custom-fps".to_owned(), "60".to_owned());
 }
 
 // Installs the official, Tailscale-signed MSI at install time; the MSI itself is never bundled.
