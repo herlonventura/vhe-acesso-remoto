@@ -248,7 +248,7 @@ class ColorThemeExtension extends ThemeExtension<ColorThemeExtension> {
 class MyTheme {
   MyTheme._();
 
-  static const Color grayBg = Color(0xFFEFEFF2);
+  static const Color grayBg = Color(0xFFEEF2F7);
   static const Color accent = Color(0xFFD4080C);
   static const Color accent50 = Color(0x77D4080C);
   static const Color accent80 = Color(0xAAD4080C);
@@ -260,6 +260,9 @@ class MyTheme {
   static const Color dark = Colors.black87;
   static const Color button = Color(0xFFD4080C);
   static const Color hoverBorder = Color(0xFF999999);
+  static const Color vheNavy = Color(0xFF14263D);
+  static const Color vheNavyDeep = Color(0xFF0E1A2B);
+  static const Color vheNavyLight = Color(0xFF1D3350);
 
   // ListTile
   static const ListTileThemeData listTileTheme = ListTileThemeData(
@@ -373,7 +376,7 @@ class MyTheme {
     // https://stackoverflow.com/questions/77537315/after-upgrading-to-flutter-3-16-the-app-bar-background-color-button-size-and
     useMaterial3: false,
     brightness: Brightness.light,
-    hoverColor: Color.fromARGB(255, 224, 224, 224),
+    hoverColor: Color(0xFFE3EAF2),
     scaffoldBackgroundColor: Colors.white,
     dialogBackgroundColor: Colors.white,
     appBarTheme: AppBarTheme(
@@ -471,9 +474,9 @@ class MyTheme {
   static ThemeData darkTheme = ThemeData(
     useMaterial3: false,
     brightness: Brightness.dark,
-    hoverColor: Color.fromARGB(255, 45, 46, 53),
-    scaffoldBackgroundColor: Color(0xFF18191E),
-    dialogBackgroundColor: Color(0xFF18191E),
+    hoverColor: vheNavyLight,
+    scaffoldBackgroundColor: vheNavyDeep,
+    dialogBackgroundColor: vheNavyDeep,
     appBarTheme: AppBarTheme(
       shadowColor: Colors.transparent,
     ),
@@ -483,14 +486,14 @@ class MyTheme {
         borderRadius: BorderRadius.circular(18.0),
         side: BorderSide(
           width: 1,
-          color: Color(0xFF24252B),
+          color: vheNavy,
         ),
       ),
     ),
     scrollbarTheme: scrollbarThemeDark,
     inputDecorationTheme: (isDesktop || isWebDesktop)
         ? InputDecorationTheme(
-            fillColor: Color(0xFF24252B),
+            fillColor: vheNavy,
             filled: true,
             isDense: true,
             border: OutlineInputBorder(
@@ -509,7 +512,7 @@ class MyTheme {
         color: accent80,
       ),
     ),
-    cardColor: Color(0xFF24252B),
+    cardColor: vheNavy,
     visualDensity: VisualDensity.adaptivePlatformDensity,
     tabBarTheme: const TabBarTheme(
       labelColor: Colors.white70,
@@ -543,7 +546,7 @@ class MyTheme {
     ),
     outlinedButtonTheme: OutlinedButtonThemeData(
       style: OutlinedButton.styleFrom(
-        backgroundColor: Color(0xFF24252B),
+        backgroundColor: vheNavy,
         side: BorderSide(color: Colors.white12, width: 0.5),
         disabledForegroundColor: Colors.white70,
         foregroundColor: Colors.white70,
@@ -558,11 +561,11 @@ class MyTheme {
     listTileTheme: listTileTheme,
     menuBarTheme: MenuBarThemeData(
         style: MenuStyle(
-            backgroundColor: MaterialStatePropertyAll(Color(0xFF121212)))),
+            backgroundColor: MaterialStatePropertyAll(vheNavyDeep))),
     colorScheme: ColorScheme.dark(
       primary: accent,
       secondary: accent,
-      background: Color(0xFF24252B),
+      background: vheNavy,
     ),
     popupMenuTheme: PopupMenuThemeData(
         shape: RoundedRectangleBorder(

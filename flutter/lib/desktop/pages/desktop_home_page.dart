@@ -18,6 +18,7 @@ import 'package:flutter_hbb/models/server_model.dart';
 import 'package:flutter_hbb/models/state_model.dart';
 import 'package:flutter_hbb/utils/multi_window_manager.dart';
 import 'package:flutter_hbb/utils/platform_channel.dart';
+import 'package:flutter_hbb/vhe.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -54,6 +55,7 @@ class _DesktopHomePageState extends State<DesktopHomePage>
   final RxBool _block = false.obs;
 
   final GlobalKey _childKey = GlobalKey();
+  late final Future<String?> _tailscaleIp = vheTailscaleIp();
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +65,9 @@ class _DesktopHomePageState extends State<DesktopHomePage>
         child: Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        buildLeftPane(context),
+        Theme(
+            data: MyTheme.darkTheme,
+            child: Builder(builder: buildLeftPane)),
         if (!isIncomingOnly) const VerticalDivider(width: 1),
         if (!isIncomingOnly) Expanded(child: buildRightPane(context)),
       ],
@@ -196,7 +200,7 @@ class _DesktopHomePageState extends State<DesktopHomePage>
         children: [
           Container(
             width: 2,
-            decoration: const BoxDecoration(color: MyTheme.accent),
+            decoration: const BoxDecoration(color: MyTheme.idColor),
           ).marginOnly(top: 5),
           Expanded(
             child: Padding(
@@ -210,8 +214,12 @@ class _DesktopHomePageState extends State<DesktopHomePage>
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          translate("ID"),
+                        FutureBuilder<String?>(
+                          future: _tailscaleIp,
+                          builder: (context, ip) => Text(
+                          ip.data != null
+                              ? "Seu número"
+                              : translate("ID"),
                           style: TextStyle(
                               fontSize: 14,
                               color: Theme.of(context)
@@ -219,13 +227,29 @@ class _DesktopHomePageState extends State<DesktopHomePage>
                                   .titleLarge
                                   ?.color
                                   ?.withOpacity(0.5)),
-                        ).marginOnly(top: 5),
+                        )).marginOnly(top: 5),
                         buildPopupMenu(context)
                       ],
                     ),
                   ),
                   Flexible(
-                    child: GestureDetector(
+                    child: FutureBuilder<String?>(
+                      future: _tailscaleIp,
+                      builder: (context, ip) => ip.data != null
+                          ? GestureDetector(
+                              onDoubleTap: () {
+                                Clipboard.setData(
+                                    ClipboardData(text: ip.data!));
+                                showToast(translate("Copied"));
+                              },
+                              child: AutoSizeText(
+                                ip.data!,
+                                maxLines: 1,
+                                minFontSize: 14,
+                                style: TextStyle(fontSize: 22),
+                              ).marginOnly(top: 4),
+                            )
+                          : GestureDetector(
                       onDoubleTap: () {
                         Clipboard.setData(
                             ClipboardData(text: model.serverId.text));
@@ -242,7 +266,7 @@ class _DesktopHomePageState extends State<DesktopHomePage>
                           fontSize: 22,
                         ),
                       ).workaroundFreezeLinuxMint(),
-                    ),
+                    )),
                   )
                 ],
               ),
@@ -303,7 +327,7 @@ class _DesktopHomePageState extends State<DesktopHomePage>
           Container(
             width: 2,
             height: 52,
-            decoration: BoxDecoration(color: MyTheme.accent),
+            decoration: BoxDecoration(color: MyTheme.idColor),
           ),
           Expanded(
             child: Padding(
