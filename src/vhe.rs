@@ -91,7 +91,7 @@ fn local_mouse_hook_thread() {
             0,
         );
         if hook.is_null() {
-            log::error!("VHE: failed to install local mouse hook");
+            hbb_common::log::error!("VHE: failed to install local mouse hook");
             return;
         }
         let mut msg: MSG = std::mem::zeroed();
